@@ -33,6 +33,8 @@ for file in DATA_FILES:
     dfs.append(df)
 
 df = pd.concat(dfs)
+df = df.dropna()
+df = df.loc[df['Date'].str.contains("\+00")]
 
 df["Date"] = pd.to_datetime(df["Date"])
 df.sort_values(by='Date')
@@ -107,4 +109,4 @@ startTimes = [routesDict[ID]["startTime"] for ID in routesDict.keys()]
 
 tripsDict = {'id': routesDict.keys(), 'start_station': startLocations, 'end_station': endLocations, 'start_time': startTimes, 'duration': durations}
 tripdf = pd.DataFrame(tripsDict, columns=['id', 'start_station', 'end_station', 'start_time', 'duration'])
-tripdf.to_csv('trips.csv')
+tripdf.to_csv('trips2.csv')

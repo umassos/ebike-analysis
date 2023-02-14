@@ -84,22 +84,30 @@ pickle.dump( routesDict, open( "/nfs/obelix/raid2/alechowicz/routesDict.pickle",
 # routesDict = pickle.load( open( "/nfs/obelix/raid2/alechowicz/routesDict.pickle", "rb" ) )
 
 durations = []
-startLocations = []
-endLocations = []
+startStations = []
+startCities = []
+endStations = []
+endCities = []
 for ID in routesDict.keys():
     startTime = routesDict[ID]["startTime"]
     endTime = routesDict[ID]["endTime"]
     durations.append(endTime - startTime)
     lat, long = routesDict[ID]["locations"][0]
     try:
-        startLocations.append(f.closest_station(lat, long, names, towns, points))
+        station, city = f.closest_station(lat, long, names, towns, points)
+        startStations.append(station)
+        startCities.append(city)
     except:
-        startLocations.append("0")
+        startStations.append("0")
+        startCities.append("0")
     lat, long = routesDict[ID]["locations"][-1]
     try:
-        endLocations.append(f.closest_station(lat, long, names, towns, points))
+        station, city = f.closest_station(lat, long, names, towns, points)
+        endStations.append(station)
+        endCities.append(city)
     except:
-        endLocations.append("0")
+        endStations.append("0")
+        endCities.append("0")
 
 # dates = [x[0] for x in locsDict.keys()]
 # locs = [x[1] for x in locsDict.keys()]
@@ -107,6 +115,6 @@ for ID in routesDict.keys():
 # startdf = pd.DataFrame(startLocsDict, columns=['date', 'start_station', 'num_trips'])
 startTimes = [routesDict[ID]["startTime"] for ID in routesDict.keys()]
 
-tripsDict = {'id': routesDict.keys(), 'start_station': startLocations, 'end_station': endLocations, 'start_time': startTimes, 'duration': durations}
-tripdf = pd.DataFrame(tripsDict, columns=['id', 'start_station', 'end_station', 'start_time', 'duration'])
+tripsDict = {'id': routesDict.keys(), 'start_station': startStations, 'start_city': startCities, 'end_station': endStations, 'end_city': endCities, 'start_time': startTimes, 'duration': durations}
+tripdf = pd.DataFrame(tripsDict, columns=['id', 'start_station', 'start_city', 'end_station', 'end_city', 'start_time', 'duration'])
 tripdf.to_csv('trips2.csv')

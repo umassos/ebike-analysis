@@ -114,7 +114,8 @@ for ID in routesDict.keys():
 # startLocsDict = {'date': dates, 'start_station': locs, 'num_trips': locsDict.values}
 # startdf = pd.DataFrame(startLocsDict, columns=['date', 'start_station', 'num_trips'])
 startTimes = [routesDict[ID]["startTime"] for ID in routesDict.keys()]
+fullRoutes = [routesDict[ID]["locations"] for ID in routesDict.keys()]
 
-tripsDict = {'id': routesDict.keys(), 'start_station': startStations, 'start_city': startCities, 'end_station': endStations, 'end_city': endCities, 'start_time': startTimes, 'duration': durations}
-tripdf = pd.DataFrame(tripsDict, columns=['id', 'start_station', 'start_city', 'end_station', 'end_city', 'start_time', 'duration'])
-tripdf.to_csv('trips2.csv')
+tripsDict = {'id': routesDict.keys(), 'start_station': startStations, 'start_city': startCities, 'end_station': endStations, 'end_city': endCities, 'start_time': startTimes, 'duration': durations, 'full_route': fullRoutes}
+tripdf = pd.DataFrame(tripsDict, columns=['id', 'start_station', 'start_city', 'end_station', 'end_city', 'start_time', 'duration', 'full_route'])
+tripdf.to_csv('tripsAugmented.csv')

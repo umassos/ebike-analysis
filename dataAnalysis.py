@@ -21,20 +21,22 @@ for index, row in stations.iterrows():
     long = longs[index]
     points.append( (lat, long) )
 
-# DATA_DIR = "/nfs/obelix/raid2/alechowicz/valleybike/*.csv"
+# DATA_DIR = "/nfs/obelix/raid2/alechowicz/ValleyBike/*.csv"
 # DATA_FILES = glob.glob(DATA_DIR)
+# DATA_FILES = ["/nfs/obelix/raid2/alechowicz/ValleyBike/VB_Routes_Data_2018_11_08.csv"]
 
-# # load route data
+# load route data
 # dfs = []
 # for file in DATA_FILES:
-#     print(file)
-#     df = pd.read_csv(file)
-#     df = df.drop(['User ID'], axis=1, errors='ignore')
-#     dfs.append(df)
+#    print(file)
+#    df = pd.read_csv(file)
+#    df = df.drop(['User ID'], axis=1, errors='ignore')
+#    dfs.append(df)
 
 # df = pd.concat(dfs)
-# df = df.dropna()
-# df = df.loc[df['Date'].str.contains("\+00")]
+# df = df.dropna(axis=1, how='all')
+# df = df.loc[df['Date'].str.contains("\+00", na=False)]
+# print(len(df))
 
 # df["Date"] = pd.to_datetime(df["Date"])
 # df.sort_values(by='Date')
@@ -118,4 +120,8 @@ fullRoutes = [routesDict[ID]["locations"] for ID in routesDict.keys()]
 
 tripsDict = {'id': routesDict.keys(), 'start_station': startStations, 'start_city': startCities, 'end_station': endStations, 'end_city': endCities, 'start_time': startTimes, 'duration': durations, 'full_route': fullRoutes}
 tripdf = pd.DataFrame(tripsDict, columns=['id', 'start_station', 'start_city', 'end_station', 'end_city', 'start_time', 'duration', 'full_route'])
-tripdf.to_csv('tripsAugmented.csv')
+tripdf.to_csv('/nfs/obelix/raid2/alechowicz/tripsAugmented.csv')
+
+tripsDict = {'id': routesDict.keys(), 'start_station': startStations, 'start_city': startCities, 'end_station': endStations, 'end_city': endCities, 'start_time': startTimes, 'duration': durations}
+tripdf = pd.DataFrame(tripsDict, columns=['id', 'start_station', 'start_city', 'end_station', 'end_city', 'start_time', 'duration'])
+tripdf.to_csv('/nfs/obelix/raid2/alechowicz/trips2.csv')

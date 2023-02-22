@@ -114,5 +114,5 @@ for name in usersDict.keys():
 # startdf = pd.DataFrame(startLocsDict, columns=['date', 'start_station', 'num_trips'])
 
 dfDict = {'num_trips': trips, 'active': user_actives, 'top_station': top_stations, 'top_town': top_towns, 'avg_duration': avg_durations, 'avg_distance': avg_distances, 'trips': tripValues}
-userdf = pd.DataFrame(dfDict, columns=['num_trips', 'active', 'top_station', 'avg_duration', 'avg_distance', 'trips'])
+userdf = pd.DataFrame(dfDict, columns=['num_trips', 'active', 'top_station', 'top_town', 'avg_duration', 'avg_distance', 'trips'])
 userdf.to_csv('users.csv')
